@@ -1,4 +1,4 @@
-library("timeSeries)
+library("timeSeries")
 
 moving_average_df <- function(x, ts=50){ # Moving Average Data frame
   
@@ -21,9 +21,15 @@ moving_average_df <- function(x, ts=50){ # Moving Average Data frame
       
       l <- cbind.data.frame(rownames(y)[ts[m]:nrow(y)], l)
       
-      colnames(l) <- c("Date", sprintf("%s MA%s", colnames(y)[1], ts[m]))
+      colnames(l) <- c("Date", sprintf("MA%s", ts[m]))
       
       if (is.null(MA)){ MA <- l } else { MA <- merge(MA, l, by="Date") } }
+    
+    df <- data.frame(rownames(y), y)
+    
+    colnames(df) <- c("Date", colnames(y))
+    
+    MA <- merge(df, MA, by="Date")
     
     dates <- MA[,1] # Assign variable for dates
     
@@ -33,8 +39,9 @@ moving_average_df <- function(x, ts=50){ # Moving Average Data frame
     
     MA <- as.timeSeries(MA) # Make it time series
     
-    if (is.null(DF)){ DF <- list(MA) } else { DF[[i]] <- MA } # Put into list
-  }
+    if (is.null(DF)){ DF <- list(MA) } else { DF[[i]] <- MA } } # Put into list
+  
+  names(DF) <- colnames(x) 
   
   DF # Display
 }
