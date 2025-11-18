@@ -1,11 +1,28 @@
-library("timeSeries")
+lapply(c("quantmod", "timeSeries"), require, character.only = T) # lib
 
-lines.plt.ma <- function(x, ts=50){
+lines.plt.ma <- function(x, s=NULL, e=NULL, ts=50, data=T){
   
-  if (all(nrow(x) < ts)){ # Check whether it has sufficient number of rows
+  p <- NULL # 4 scenarios: no dates, only start or end dates, both dates
+  src <- "yahoo"
+  
+  getData <- function(A, s, e) {
+    if (is.null(s) && is.null(e)) return(getSymbols(A, src=src, auto.assign=F)) 
+    if (is.null(e)) return(getSymbols(A, from = s, src=src, auto.assign=F)) 
+    if (is.null(s)) return(getSymbols(A, to = e, src=src, auto.assign=F)) 
+    return(getSymbols(A, from = s, to = e, src=src, auto.assign=F)) 
+  }
+  if (data){ for (A in x){ p <- cbind(p, getData(A, s, e)[,4]) } # Join data
     
-    return(message(
-      "Choose another time interval for data frame or time series")) }
+    p <- p[apply(p, 1, function(x) all(!is.na(x))),] # Get rid of NA
+    
+    colnames(p) <- x # Put the tickers in column names
+    
+    x <- as.timeSeries(p) } # Make it time series and display
+  
+  #if (all(nrow(x) < ts)){ # Check whether it has sufficient number of rows
+    
+   # return(message(
+    #  "Choose another time interval for data frame or time series")) }
   
   DF <- NULL # Where to contain data frames
   
@@ -69,7 +86,7 @@ lines.plt.ma <- function(x, ts=50){
     
     legend(
       x = "bottom",
-      inset = c(0, -0.3),
+      inset = c(0, -0.2),
       legend = colnames(p),
       col = seq(ncol(p)),
       lwd = 2,
@@ -81,4 +98,4 @@ lines.plt.ma <- function(x, ts=50){
     
     on.exit(par(par(no.readonly = T))) } # Show legend with names
 }
-lines.plt.ma(stock_data, ts=c(50, 200))
+lines.plt.ma("CNR", s = "2022-01-01", ts=c(50, 200))
