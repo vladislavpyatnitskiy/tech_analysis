@@ -58,7 +58,10 @@ RSI <- function(x, s=NULL, e=NULL, data=T){
     axis(side = 4, las = 2) # Right Y-Axis Values
     
     grid(nx = 1, ny = NULL, lty = 3, col = "grey") # Horizontal lines
-    
+
+    abline(h = 30, col = "green", lwd = 3) # Value to buy
+    abline(h = 70, col = "red", lwd = 3) # Value to sell
+                       
     A <- I[nrow(I),]
     
     d <- c(d, if (A < 30) "Buy" else if (A > 70) "Sell" else "Hold")
