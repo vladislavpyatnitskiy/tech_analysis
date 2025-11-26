@@ -1,26 +1,32 @@
-library("timeSerie")
+library("timeSeries")
 
 bollinger.band.data <- function(x, ts=20){
   
   ts_n <- ts - 1
   
-  l <- NULL
+  df <- NULL
   
-  for (n in 1:(nrow(x) - ts_n)){ y <- x
+  for (i in 1:ncol(x)){ l <- NULL
   
-    MEAN = mean(y[n:(n + ts_n),])
-    SD = sd(y[n:(n + ts_n),])
+    for (n in 1:(nrow(x) - ts_n)){ y <- x[,i]
     
-    l = rbind.data.frame(l, cbind(MEAN, MEAN - SD, MEAN + SD)) }
+      MEAN = mean(y[n:(n + ts_n),])
+      SD = sd(y[n:(n + ts_n),])
+      
+      l = rbind.data.frame(l, cbind(MEAN, MEAN - SD, MEAN + SD)) }
+      
+    rownames(l) <- rownames(y)[ts:nrow(y)]
+      
+    p <- cbind(y, l)
+      
+    p <- p[apply(p, 1, function(x) all(!is.na(x))),] # Get rid of NA
+      
+    colnames(p)[2:4] <- c("MA20", "-SD", "+SD") 
+      
+    if (is.null(df)){ df <- list(p) } else { df[[i]] <- p } }
     
-  rownames(l) <- rownames(x)[ts:nrow(x)]
+  names(df) <- colnames(x)
   
-  p <- cbind(x, l)
-  
-  p <- p[apply(p, 1, function(x) all(!is.na(x))),] # Get rid of NA
-  
-  colnames(p)[2:4] <- c(sprintf("MA%s", ts), "-SD", "+SD") 
-  
-  p
+  df
 }
-bollinger.band.data(stock_data[,1])
+bollinger.band.data(stock_data)
