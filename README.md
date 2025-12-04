@@ -18,6 +18,10 @@ Fig. 3. Line Plot of MACD
 ![](https://github.com/vladislavpyatnitskiy/tech_analysis/blob/main/Plots/Bollinger%20Bands%20Plot.png?raw=true)
 Fig. 4. Line Plot of Bollinger Bands
 
-## Average True Range
+## Average True Range (ATR)
 ![](https://github.com/vladislavpyatnitskiy/tech_analysis/blob/main/Plots/ATR%20plot.png?raw=true)
-Fig. 5. Line Plot of Average True Range
+Fig. 5. Line Plot of ATR
+
+## On-Balance Volume (OBV)
+![](https://github.com/vladislavpyatnitskiy/tech_analysis/blob/main/Plots/OBV%20plot.png?raw=true)
+Fig. 6. Plot of OBV
