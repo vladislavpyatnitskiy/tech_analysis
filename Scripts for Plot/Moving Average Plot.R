@@ -12,7 +12,14 @@ lines.plt.ma <- function(x, s=NULL, e=NULL, ts=50, data=T){
     return(getSymbols(A, from = s, to = e, src=src, auto.assign=F)) 
   }
   if (data){ for (A in x){ p <- cbind(p, getData(A, s, e)[,4]) } # Join data
-    
+
+    message(
+      sprintf(
+        "%s is downloaded (%s / %s)", 
+        A, which(x == A), length(x)
+      )
+    ) # Download message
+            
     p <- p[apply(p, 1, function(x) all(!is.na(x))),] # Get rid of NA
     
     colnames(p) <- x # Put the tickers in column names
