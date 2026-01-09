@@ -11,7 +11,16 @@ RSI <- function(x, s=NULL, e=NULL, data=T){
     if (is.null(s)) return(getSymbols(A, to = e, src=src, auto.assign=F)) 
     return(getSymbols(A, from = s, to = e, src=src, auto.assign=F)) 
   }
-  if (data){ for (A in x){ p <- cbind(p, getData(A, s, e)[,4]) } # Join data
+  if (data){ for (A in x){ p <- cbind(p, getData(A, s, e)[,4]) 
+  
+      message(
+        sprintf(
+          "%s is downloaded (%s / %s)", 
+          A, which(x == A), length(x)
+        )
+      ) # Download message
+      
+    } # Join data
     
     p <- p[apply(p, 1, function(x) all(!is.na(x))),] # Get rid of NA
     
@@ -58,10 +67,10 @@ RSI <- function(x, s=NULL, e=NULL, data=T){
     axis(side = 4, las = 2) # Right Y-Axis Values
     
     grid(nx = 1, ny = NULL, lty = 3, col = "grey") # Horizontal lines
-
-    abline(h = 30, col = "green", lwd = 3) # Value to buy
-    abline(h = 70, col = "red", lwd = 3) # Value to sell
-                       
+    
+    abline(h = 30, col = "green", lwd = 3) # 
+    abline(h = 70, col = "red", lwd = 3) # 
+    
     A <- I[nrow(I),]
     
     d <- c(d, if (A < 30) "Buy" else if (A > 70) "Sell" else "Hold")
@@ -75,4 +84,4 @@ RSI <- function(x, s=NULL, e=NULL, data=T){
   
   D
 }
-RSI(c("AAPL", "NVDA"), s="2025-01-01")
+RSI(c("UNM", "MU", "T"), s="2025-01-01")
