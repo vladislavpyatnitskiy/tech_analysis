@@ -11,7 +11,15 @@ bollinger.band <- function(x, s=NULL, e=NULL, ts=20, data=T){
     if (is.null(s)) return(getSymbols(A, to = e, src=src, auto.assign=F)) 
     return(getSymbols(A, from = s, to = e, src=src, auto.assign=F)) 
   }
-  if (data){ for (A in x){ p <- cbind(p, getData(A, s, e)[,4]) } # Join data
+  if (data){ for (A in x){ p <- cbind(p, getData(A, s, e)[,4]) 
+  
+      message(
+        sprintf(
+          "%s is downloaded (%s / %s)", 
+          A, which(x == A), length(x)
+        )
+      ) # Download message
+    } # Join data
     
     p <- p[apply(p, 1, function(x) all(!is.na(x))),] # Get rid of NA
     
