@@ -98,6 +98,6 @@ RSI.rus <- function(x, s=NULL, e=NULL, data=T, split=F, all=F){
   
   colnames(D) <- c("Ticker", "RSI", "Signal")
   
-  D
+  D[order(-D$RSI), ] # Sort by price change level
 }
 RSI.rus(c("GMKN", "BELU"), s="2025-01-01")
