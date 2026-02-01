@@ -82,6 +82,6 @@ RSI <- function(x, s=NULL, e=NULL, data=T){
   
   colnames(D) <- c("Ticker", "RSI", "Signal")
   
-  D
+  D[order(-D$RSI), ] # Sort by price change level     
 }
 RSI(c("UNM", "MU", "T"), s="2025-01-01")
