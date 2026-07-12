@@ -73,7 +73,8 @@ RSI.rus <- function(x, s=NULL, e=NULL, split=F, all=F){
       ylab = "RSI",
       xlab = "Trading Days",
       main = sprintf("Relative Strength Index of %s", colnames(y)),
-      las = 1
+      las = 1,
+      ylim = c(0, 1)
     )
   
     axis(side = 4, las = 2) # Right Y-Axis Values
